@@ -4,6 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { rnw } from "vite-plugin-rnw";
 import { uniwind } from "uniwind/vite";
 import path from "path";
+import commonjs from 'vite-plugin-commonjs';
 
 const rnwLayeredStyleSheet = {
   enforce: "pre",
@@ -31,6 +32,10 @@ export default defineConfig({
     // @ts-ignore
     rnwLayeredStyleSheet,
     rnw(),
+    commonjs({
+      // Optional: specify which packages require CJS transformation
+      filter: (id) => id.includes('node_modules/@codsod/react-native-chat'), 
+    }),
     preact(),
     tailwindcss(),
     uniwind({
@@ -42,7 +47,7 @@ export default defineConfig({
     }),
   ],
   server: { allowedHosts: true },
-    build: {
+  build: {
     rollupOptions: {
       output: {
         entryFileNames: "x-works.js",
